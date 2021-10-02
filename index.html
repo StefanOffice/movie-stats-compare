@@ -49,22 +49,38 @@
   <div class="container">
 
     <!-- Dropdown search -->
-    <div class="row justify-content-center">
+    <div class="row">
 
-
-      <div class="col-5 dropdown mt-3">
-        <label class="form-label" for="dropdownInpu1t">Movie 1:</label>
+      <!-- left search -->
+      <div class="col-6 dropdown mt-3">
+        <label class="form-label" for="dropdownInput1">Movie 1:</label>
         <input class="form-control dropdown-toggle" type="text" id="dropdownInput1" data-bs-toggle="dropdown"
           aria-expanded="false" placeholder="Search..." value="">
         <ul id="resultList1" class="dropdown-menu" aria-labelledby="dropdownInput1">
         </ul>
       </div>
+      
+      <!-- right search -->
+      <div class="col-6 dropdown mt-3">
+        <label class="form-label" for="dropdownInput2">Movie 1:</label>
+        <input class="form-control dropdown-toggle" type="text" id="dropdownInput2" data-bs-toggle="dropdown"
+          aria-expanded="false" placeholder="Search..." value="">
+        <ul id="resultList2" class="dropdown-menu" aria-labelledby="dropdownInput2">
+        </ul>
+      </div>
 
     </div>
-    <div class="row justify-content-center">
-      <div id="cardContainer1" class="col-5 m-5">
+
+    <div class="row">
+      <!-- left card -->
+      <div id="cardContainer1" class="col-6 mt-5 d-flex justify-content-xl-center justify-content-start ">
 
       </div>
+      <!-- right card -->
+      <div id="cardContainer2" class="col-6 mt-5 d-flex justify-content-xl-center justify-content-end ">
+
+      </div>
+
     </div>
 
   </div>
@@ -77,6 +93,7 @@
 
   <!-- custom scripts -->
   <script src="utils.js"></script>
+  <script src="autocomplete.js"></script>
   <script src="app.js"></script>
 </body>
 

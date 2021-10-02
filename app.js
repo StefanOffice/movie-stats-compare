@@ -19,70 +19,20 @@ const fetchData = async (url, searchTerm) => {
 }
 
 const omdbUrl = 'http://www.omdbapi.com/';
-const input = document.querySelector('#dropdownInput1');
-input.value = '';
+const input1 = document.querySelector('#dropdownInput1');
+const resultContainer1 = document.querySelector("#resultList1");
+const cardSlot1 = document.querySelector('#cardContainer1');
+createAutoComplete({input:input1, 
+    resultContainer:resultContainer1,
+    cardSlot:cardSlot1});
 
-const onInput = async (event) => {
-    //send a request based on what user entered
-    const movies = await fetchData(omdbUrl, event.target.value);
-    console.log(movies);
+const input2 = document.querySelector('#dropdownInput2');
+const resultContainer2 = document.querySelector("#resultList2");
+const cardSlot2 = document.querySelector('#cardContainer2');
+createAutoComplete({input:input2, 
+    resultContainer:resultContainer2,
+    cardSlot:cardSlot2});
 
-    const container = document.querySelector("#resultList1");
-    //clear last search results
-    container.innerHTML = '';
-
-    //populate the drop down list with results
-    for (let movie of movies) {
-        const result = document.createElement('li');
-
-        if (movie.Poster === 'N/A') {
-            movie.Poster = 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80'
-        }
-
-        result.innerHTML = `<a class="dropdown-item" href="#"><img src="${movie.Poster}" width="50px" height="70px"></img>${movie.Title}</a>`;
-
-        //if a user clicks on any specific item in the drop down list
-        result.addEventListener('click', () => {
-            input.value = movie.Title;
-            onMovieSelect(movie);
-        })
-
-        container.append(result);
-    }
-
-    //if there are no results for this request
-    if (!movies.length) {
-        const result = document.createElement('li');
-        result.innerHTML = `<i class = "m-2" >No movies have matched your search... </i>`;
-        container.append(result);
-    }
-
-}
-
-//if the user clicks on the empty input
-const onClick = async (event) => {
-    const container = document.querySelector("#resultList1");
-
-    if (!input.value) {
-        container.innerHTML = '';
-        const notification = document.createElement('li');
-        notification.innerHTML = `<i class = "m-2">Enter search terms above to begin...</i>`;
-        container.append(notification);
-    }
-
-}
-
-const onMovieSelect = async (movie) => {
-    const movieDetails = await axios.get(omdbUrl, {
-        params: {
-            apikey: 'd9835cc5',
-            i: movie.imdbID
-        }
-    });
-
-    const cardSlot = document.querySelector('#cardContainer1');
-    cardSlot.innerHTML = generateACard(movieDetails.data);
-}
 
 const generateACard = (movieDetails) => {
 
@@ -130,10 +80,4 @@ const generateACard = (movieDetails) => {
 
 }
 
-
-
-
-input.addEventListener('input', createLimitedCallFunction(onInput, 500));
-input.addEventListener('click', createLimitedCallFunction(onClick, 0));
-
-console.log("Hey")
+console.log("Heiy")
