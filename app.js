@@ -59,7 +59,111 @@ const saveMovie = (movie, side) => {
 
 const compareMovies = () => {
     if (movie1 && movie2) {
-        
+        const leftSideStats = document.querySelectorAll(
+            '#cardContainer1 li'
+        );
+        console.log(leftSideStats);
+        const rightSideStats = document.querySelectorAll(
+            '#cardContainer2 li'
+        );
+        console.log(rightSideStats);
+
+        for(let i = 0; i < leftSideStats.length; i++){
+            const rightItem = rightSideStats[i];
+            const leftItem = leftSideStats[i]
+
+            let winner;
+
+            if(leftItem.dataset.skip){
+                continue;
+            }
+
+            if (leftItem.dataset.value) {
+                const leftScore = leftItem.dataset.value;
+                const rightScore = rightItem.dataset.value;
+
+                if (leftScore > rightScore) {
+                    winner = leftItem;
+                } else if (rightScore > leftScore) {
+                    winner = rightItem;
+                }
+
+            } else {
+                winner = compareStats(leftItem, rightItem, 'oscarwins');
+
+                if (!winner) {
+                    winner = compareStats(leftItem, rightItem, 'wins');
+                }
+
+                if (!winner) {
+                    winner = compareStats(leftItem, rightItem, 'noms');
+                }
+
+            }
+
+            let other = winner === leftItem ? rightItem : leftItem;
+
+            if (winner) {
+                setStatus(winner, 'win');
+                setStatus(other, 'lose');
+            } else {
+
+                setStatus(leftItem, 'tie');
+                setStatus(rightItem, 'tie');
+            }
+
+
+
+
+        }
+    }
+}
+
+const compareStats = (item1, item2, stat) => {
+    const i1data = item1.dataset;
+    const i2data = item2.dataset;
+
+    if(i1data[stat] && i1data[stat].trim().toLowerCase() === 'null'){
+        i1data[stat] = 0;
+    }
+    
+    if(i2data[stat] && i2data[stat].trim().toLowerCase() === 'null'){
+        i2data[stat] = 0;
+    }
+
+    if (i1data[stat] && i2data[stat]) {
+        if (i1data[stat] > i2data[stat]) {
+            return item1;
+        } else if (i1data[stat] < i2data[stat]) {
+            return item2;
+        } else {
+            return null;
+        }
+    } else if (!i1data[stat] && !i2data[stat]) {
+        return null;
+    } else {
+        if (i1data[stat]) {
+            return item1;
+        } else {
+            return item2;
+        }
+    }
+
+}
+
+const setStatus = (item, status) => {
+    if (status === 'win') {
+        item.classList.remove('bg-warning');
+        item.classList.remove('bg-danger');
+        item.classList.add('bg-success');
+    } else if (status === 'tie') {
+        item.classList.add('bg-warning');
+        item.classList.remove('bg-danger');
+        item.classList.remove('bg-success');
+    } else if (status === 'lose') {
+        item.classList.remove('bg-warning');
+        item.classList.add('bg-danger');
+        item.classList.remove('bg-success');
     }
 }
 
@@ -93,7 +197,7 @@ const generateACard = (movieDetails) => {
     const nomsRgx = /[a-zA-Z]*\d*\s*(nomination)/gi;
     const noms = getNumber(nomsRgx, movieDetails.Awards);
 
-    return `<div class="card" style="width: 30rem;">
+    return `<div class="card" style="width: 22rem;">
         <img src="${movieDetails.Poster}" class="card-img-top">
         <div class ="card-body">
         <h4 class ="card-title"><b>${movieDetails.Title}</b></h5>
@@ -102,7 +206,7 @@ const generateACard = (movieDetails) => {
 
         <ul class ="list-group list-group-flush">
 
-        <li class ="list-group-item">
+        <li data-skip="true" class ="list-group-item">
         <b>Genre:</b>
         <p class ="card-text">${movieDetails.Genre}</p>
         </li>
