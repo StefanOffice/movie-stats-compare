@@ -17,7 +17,7 @@ const createAutoComplete = ({ input, resultContainer, cardSlot, renderItem, onIt
             //if a user clicks on any specific item in the drop down list
             result.addEventListener('click', () => {
                 input.value = inputValue(item);
-                onItemSelect(item, cardSlot);
+                onItemSelect(item);
             })
 
             resultContainer.append(result);
